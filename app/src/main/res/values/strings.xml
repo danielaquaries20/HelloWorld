@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Hello World</string>
+
+    <string-array name="my_choice">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+        <!-- Tambahkan item sesuai kebutuhan -->
+    </string-array>
+
+    <string-array name="spinner_pilihan">
+        <item>Pilihan 1</item>
+        <item>Pilihan 2</item>
+        <item>Pilihan 3</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

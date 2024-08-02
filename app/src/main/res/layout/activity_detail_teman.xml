@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="namaTeman"
+            type="String" />
+
+        <variable
+            name="sekolahTeman"
+            type="String" />
+
+        <variable
+            name="fotoTeman"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".pertemuan10.DetailTemanActivity">
+
+        <ImageView
+            android:id="@+id/iv_foto"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_gravity="center"
+            android:layout_margin="24dp"
+            android:src='@{fotoTeman}' />
+
+        <TextView
+            android:id="@+id/tv_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text='@{namaTeman}'
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_sekolah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text='@{sekolahTeman}'
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+
+    </LinearLayout>
+
+</layout>

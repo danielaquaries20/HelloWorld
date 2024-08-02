@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="dark_app_background">#222222</color>
+    <color name="light_app_background">#FFFDFD</color>
+
+    <color name="dark_green">#577A2E</color>
+    <color name="_dark_green">#80577A2E</color>
+    <color name="light_green">#0EBD15</color>
+    <color name="_light_green">#800EBD15</color>
+
+    <color name="dark_blue">#FF0099CC</color>
+    <color name="_dark_blue">#800099CC</color>
+
+    <color name="light_blue">#FF33B5E5</color>
+    <color name="_light_blue">#8033B5E5</color>
+
+    <color name="light_red">#DA0C47</color>
+    <color name="light_orange">#FF9800</color>
+    <color name="light_purple">#9C27B0</color>
+    <color name="light_yellow">#FFEB3B</color>
+
+    <color name="dark_red">#88062B</color>
+    <color name="dark_orange">#A66300</color>
+    <color name="dark_purple">#673AB7</color>
+    <color name="dark_yellow">#A59825</color>
+    <color name="light_gray">#8D9796</color>
+    <color name="dark_gray">#656565</color>
+
+
+</resources>
