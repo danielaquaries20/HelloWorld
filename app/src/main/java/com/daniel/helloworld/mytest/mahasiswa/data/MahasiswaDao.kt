@@ -21,8 +21,8 @@ interface MahasiswaDao {
     suspend fun delete(mahasiswa: Mahasiswa)
 
     @Query("SELECT * from mahasiswa WHERE id = :id")
-    fun getItem(id: Int): Flow<Mahasiswa>
+    fun getItem(id: Int): Flow<Mahasiswa?>
 
     @Query("SELECT * from mahasiswa ORDER BY nama ASC")
-    fun getAllItems(): Flow<List<Mahasiswa>>
+    fun getAllItems(): Flow<List<Mahasiswa>?>
 }

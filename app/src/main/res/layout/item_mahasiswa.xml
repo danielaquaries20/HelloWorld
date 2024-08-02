@@ -18,7 +18,7 @@
             android:id="@+id/iv_photo"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:src="@color/light_gray" />
+            android:src="@drawable/person_icon" />
 
         <LinearLayout
             android:layout_width="wrap_content"

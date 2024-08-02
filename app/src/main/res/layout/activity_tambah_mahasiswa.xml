@@ -11,6 +11,17 @@
         android:orientation="vertical"
         tools:context=".mytest.mahasiswa.ui.TambahMahasiswaActivity">
 
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="36dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            android:src="@drawable/person_icon" />
+
         <EditText
             android:id="@+id/et_nim"
             android:layout_width="match_parent"
@@ -56,13 +67,32 @@
             android:hint="Telepon"
             android:inputType="phone" />
 
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="16dp"
-            android:text="Simpan" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/dark_red"
+                android:text="Delete"
+                android:visibility="invisible" />
+
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_margin="16dp"
+                android:text="Simpan" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

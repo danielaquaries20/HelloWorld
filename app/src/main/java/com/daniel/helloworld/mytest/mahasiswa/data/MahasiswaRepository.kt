@@ -4,9 +4,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface MahasiswaRepository {
 
-    fun getAllItems(): Flow<List<Mahasiswa>>
+    fun getAllItems(): Flow<List<Mahasiswa>?>
 
-    fun getItem(id: Int): Flow<Mahasiswa>
+    fun getItem(id: Int): Flow<Mahasiswa?>
 
     suspend fun insertItem(mahasiswa: Mahasiswa)
 

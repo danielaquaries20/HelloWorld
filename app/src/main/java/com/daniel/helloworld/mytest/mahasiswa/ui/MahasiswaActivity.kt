@@ -2,12 +2,12 @@ package com.daniel.helloworld.mytest.mahasiswa.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +25,8 @@ class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: MahasiswaViewModel
 
     private val listMhs = ArrayList<Mahasiswa>()
+
+    private lateinit var adapter: RvMahasiswaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,34 +60,47 @@ class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
             }
         }*/
 
+        adapter = RvMahasiswaAdapter(this) { pos, data ->
+
+            val destination = Intent(this, TambahMahasiswaActivity::class.java).apply {
+                putExtra("id_mhs", data.id)
+            }
+            startActivity(destination)
+        }
+        binding.rvMahasiswa.adapter = adapter
+
         observe()
         setView()
+
+
     }
 
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.getMhs().collect {
-                        Log.d("ListMhs", "V1: $it")
-                        listMhs.clear()
-                        listMhs.addAll(it)
-                        setData()
-                        Log.d("ListMhs", "V2: $listMhs")
+                    viewModel.getMhs().collect { data ->
+                        data?.let {
+                            listMhs.clear()
+                            listMhs.addAll(it)
+                            adapter.setData(listMhs)
+                            if (listMhs.isEmpty()) binding.tvEmpty.isVisible = true
+                            else binding.tvEmpty.isVisible = false
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun setData() {
-        var mhsStr = ""
-        listMhs.forEach {
-            mhsStr += "${it.id} - ${it.nim} - ${it.nama}\n\n"
-        }
+    /* private fun setData() {
+         var mhsStr = ""
+         listMhs.forEach {
+             mhsStr += "${it.id} - ${it.nim} - ${it.nama}\n\n"
+         }
 
-        binding.tvData.text = mhsStr
-    }
+         binding.tvData.text = mhsStr
+     }*/
 
     private fun setView() {
         binding.ftbAdd.setOnClickListener(this)

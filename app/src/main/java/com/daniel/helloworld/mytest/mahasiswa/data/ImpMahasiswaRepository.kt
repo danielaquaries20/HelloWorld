@@ -3,9 +3,9 @@ package com.daniel.helloworld.mytest.mahasiswa.data
 import kotlinx.coroutines.flow.Flow
 
 class ImpMahasiswaRepository(private val dao: MahasiswaDao) : MahasiswaRepository {
-    override fun getAllItems(): Flow<List<Mahasiswa>> = dao.getAllItems()
+    override fun getAllItems(): Flow<List<Mahasiswa>?> = dao.getAllItems()
 
-    override fun getItem(id: Int): Flow<Mahasiswa> = dao.getItem(id)
+    override fun getItem(id: Int): Flow<Mahasiswa?> = dao.getItem(id)
 
     override suspend fun insertItem(mahasiswa: Mahasiswa) = dao.insert(mahasiswa)
 

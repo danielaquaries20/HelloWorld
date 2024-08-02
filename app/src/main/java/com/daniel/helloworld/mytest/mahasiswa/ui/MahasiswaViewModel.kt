@@ -8,7 +8,18 @@ class MahasiswaViewModel(private val mhsDao: MahasiswaDao) : ViewModel() {
 
     fun getMhs() = mhsDao.getAllItems()
 
+    fun getMhsById(id: Int) = mhsDao.getItem(id)
+
     suspend fun insertMhs(mhs: Mahasiswa) {
         mhsDao.insert(mhs)
     }
+
+    suspend fun updateMhs(mhs: Mahasiswa) {
+        mhsDao.update(mhs)
+    }
+
+    suspend fun deleteMhs(mhs: Mahasiswa) {
+        mhsDao.delete(mhs)
+    }
+
 }
