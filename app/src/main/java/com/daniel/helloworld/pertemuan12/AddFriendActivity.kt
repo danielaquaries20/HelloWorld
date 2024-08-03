@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -68,6 +67,7 @@ class AddFriendActivity : AppCompatActivity() {
             }
         }
 
+    private var idFriend: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,13 +89,13 @@ class AddFriendActivity : AppCompatActivity() {
             return
         }
 
-        val id = intent.getIntExtra("id", 0)
+        idFriend = intent.getIntExtra("id", 0)
 
         val viewModelFactory = FriendVMFactory(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[FriendViewModel::class.java]
 
-        if (id != 0) {
-            getFriend(id)
+        if (idFriend != 0) {
+            getFriend()
         }
 
         binding.btnSave.setOnClickListener {
@@ -108,11 +108,11 @@ class AddFriendActivity : AppCompatActivity() {
         binding.btnDelete.setOnClickListener { delete() }
     }
 
-    private fun getFriend(id: Int) {
+    private fun getFriend() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.getFriendById(id).collect { friend ->
+                    viewModel.getFriendById(idFriend).collect { friend ->
                         oldFriend = friend
                         binding.etName.setText(friend?.name)
                         binding.etSchool.setText(friend?.school)
@@ -157,18 +157,28 @@ class AddFriendActivity : AppCompatActivity() {
                 Toast.makeText(this, "Data not change", Toast.LENGTH_SHORT).show()
                 return
             }
+            val data: Friend
+            if (photoStr.isEmpty()) {
+                data = oldFriend!!.copy(
+                    name = name,
+                    school = school,
+                    hobby = hobby
+                ).apply {
+                    id = idFriend
+                }
+            } else {
+                data = oldFriend!!.copy(
+                    name = name,
+                    school = school,
+                    hobby = hobby,
+                    photo = photoStr
+                ).apply {
+                    id = idFriend
+                }
+            }
 
-            val data = oldFriend?.copy(
-                name = name,
-                school = school,
-                hobby = hobby,
-                photo = photoStr
-            )
-            Log.d("DataNew", "Data1: $data")
             lifecycleScope.launch {
-                Log.d("DataNew", "Data2: $data")
-                viewModel.editFriend(data!!)
-                Log.d("DataNew", "Data3: $data")
+                viewModel.editFriend(data)
             }
         }
 

@@ -12,15 +12,15 @@ interface FriendDao {
     @Insert
     suspend fun insert(friend: Friend)
 
+    @Update
+    suspend fun editFriend(friend: Friend)
+
     @Query("SELECT * FROM friend")
     fun getAll(): Flow<List<Friend>>
 
 
     @Query("SELECT * from friend WHERE id = :id")
-    fun getItemById(id: Int) : Flow<Friend?>
-
-    @Update
-    suspend fun update(friend: Friend)
+    fun getItemById(id: Int): Flow<Friend?>
 
     @Delete
     suspend fun delete(friend: Friend)

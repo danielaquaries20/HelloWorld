@@ -1,5 +1,6 @@
 package com.daniel.helloworld.pertemuan12
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.daniel.helloworld.pertemuan12.database.Friend
 import com.daniel.helloworld.pertemuan12.database.FriendDao
@@ -15,7 +16,9 @@ class FriendViewModel(private val friendDao: FriendDao) : ViewModel() {
     }
 
     suspend fun editFriend(data: Friend) {
-        friendDao.update(data)
+        Log.d("DataNew", "TestViewModel 1")
+        friendDao.editFriend(data)
+        Log.d("DataNew", "TestViewModel 2")
     }
 
     suspend fun deleteFriend(data: Friend) {
