@@ -35,6 +35,10 @@ class AdapterRVFriend(
 
         holder.tvName.text = currentItem.name
         holder.tvSchool.text = currentItem.school
+        val photoBtm = AddFriendActivity().stringToBitmap(currentItem.photo)
+        photoBtm?.let {
+            holder.ivPhoto.setImageBitmap(it)
+        }
 
         holder.itemView.setOnClickListener { onItemClick(position, currentItem) }
     }

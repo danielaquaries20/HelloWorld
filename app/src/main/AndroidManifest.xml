@@ -35,7 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".pertemuan12.ListFriendActivity"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".mytest.permission.TestGetPhotoActivity"
             android:exported="true" />

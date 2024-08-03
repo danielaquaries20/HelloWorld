@@ -41,7 +41,12 @@ class ListFriendActivity : AppCompatActivity() {
         val viewModelFactory = FriendVMFactory(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[FriendViewModel::class.java]
 
-        adapter = AdapterRVFriend(this) { position, data -> }
+        adapter = AdapterRVFriend(this) { position, data ->
+            val destination = Intent(this, AddFriendActivity::class.java).apply {
+                putExtra("id", data.id)
+            }
+            startActivity(destination)
+        }
 
         binding.rvShowData.adapter = adapter
 

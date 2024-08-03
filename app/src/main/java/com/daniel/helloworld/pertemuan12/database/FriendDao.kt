@@ -15,6 +15,10 @@ interface FriendDao {
     @Query("SELECT * FROM friend")
     fun getAll(): Flow<List<Friend>>
 
+
+    @Query("SELECT * from friend WHERE id = :id")
+    fun getItemById(id: Int) : Flow<Friend?>
+
     @Update
     suspend fun update(friend: Friend)
 
