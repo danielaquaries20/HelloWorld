@@ -24,4 +24,7 @@ interface FriendDao {
 
     @Delete
     suspend fun delete(friend: Friend)
+
+    @Query("SELECT * from friend WHERE name = :value")
+    fun getItemByString(value: String): Flow<List<Friend>?>
 }
