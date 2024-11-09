@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.firebaseGms)
+    alias(libs.plugins.firebaseCrashlytic)
+    alias(libs.plugins.firebasePerf)
 }
 
 android {
@@ -37,11 +41,19 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+
+        tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+            kotlinOptions.jvmTarget = jvmTarget
+        }
     }
 
     buildFeatures {
         viewBinding = true
         dataBinding = true
+    }
+
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
     }
 }
 
@@ -61,6 +73,12 @@ dependencies {
     implementation(libs.room.ktx)
 
     implementation(libs.objecthunter)
+
+    implementation(libs.daggerHilt)
+    kapt(libs.daggerHiltCompiler)
+
+    implementation(libs.fragmentKtx)
+    implementation(libs.coreCrocodic)
 }
 
 kapt {

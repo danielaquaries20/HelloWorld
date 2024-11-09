@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "788929877804",
+    "project_id": "ki-l-mid",
+    "storage_bucket": "ki-l-mid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788929877804:android:84312cbafe2318ed76fe89",
+        "android_client_info": {
+          "package_name": "com.daniel.helloworld"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf7S6cqfAptJUm2seKw4yNcLRC5DBFuo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,6 +14,12 @@ room-runtime = "2.6.1"
 room-compiler = "2.6.1"
 room-ktx = "2.6.1"
 ksp = "1.9.0-1.0.11"
+daggerHilt = "2.51.1"
+fragmentKtx = "1.6.0"
+firebaseGms = "4.4.2"
+firebaseCrashlytic = "2.9.2"
+firebasePerf = "1.4.2"
+coreCrocodic = "4.0.11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,9 +37,19 @@ room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "r
 room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room-compiler"}
 room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room-ktx"}
 
+daggerHilt = {group = "com.google.dagger", name = "hilt-android", version.ref = "daggerHilt"}
+daggerHiltCompiler = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt"}
+fragmentKtx = {group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx"}
+coreCrocodic = {group = "com.github.crocodic-studio", name = "AndroidCoreProject", version.ref = "coreCrocodic"}
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
+
+daggerHilt = {id = "com.google.dagger.hilt.android", version.ref = "daggerHilt"}
+firebaseGms = {id = "com.google.gms.google-services", version.ref = "firebaseGms"}
+firebaseCrashlytic = {id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytic"}
+firebasePerf = {id = "com.google.firebase.firebase-perf", version.ref = "firebasePerf"}
 
