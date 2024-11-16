@@ -11,10 +11,10 @@ import com.daniel.helloworld.R
 
 class RvFriendAdapter(
     private val context: Context,
-    private val onItemClick : (position: Int, data: Friend) -> Unit
+    private val onItemClick : (position: Int, data: FriendData) -> Unit
 ) : RecyclerView.Adapter<RvFriendAdapter.Companion.FriendViewHolder>() {
 
-    private var listItem = emptyList<Friend>()
+    private var listItem = emptyList<FriendData>()
 
     companion object {
         class FriendViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,7 +44,7 @@ class RvFriendAdapter(
         holder.itemView.setOnClickListener { onItemClick(position, currentItem) }
     }
 
-    fun setData(list: List<Friend>) {
+    fun setData(list: List<FriendData>) {
         this.listItem = list
         notifyDataSetChanged()
     }

@@ -18,7 +18,7 @@ class ListTemanActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListTemanBinding
 
-    private val data = ArrayList<Friend>()
+    private val data = ArrayList<FriendData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,13 +85,13 @@ class ListTemanActivity : AppCompatActivity() {
         val cloud = ResourcesCompat.getDrawable(resources, R.drawable.cloud, null)
         val rain = ResourcesCompat.getDrawable(resources, R.drawable.cloud_rain, null)
         val sun = ResourcesCompat.getDrawable(resources, R.drawable.sun, null)
-        val friends = arrayOf(
-            Friend("Budi Pamungkas", "SMKN 11 Semarang", cloud),
-            Friend("Tifa Lockhart", "SMKN 1 Kendal", sun),
-            Friend("Kevin Hart", "SMAN 1 Bergas", rain)
+        val friendData = arrayOf(
+            FriendData("Budi Pamungkas", "SMKN 11 Semarang", cloud),
+            FriendData("Tifa Lockhart", "SMKN 1 Kendal", sun),
+            FriendData("Kevin Hart", "SMAN 1 Bergas", rain)
         )
 
-        data.addAll(friends)
+        data.addAll(friendData)
 
         val adapter = RvFriendAdapter(this) { position, data ->
             val friendPhoto = data.photo?.let { drawableToByteArray(it) }

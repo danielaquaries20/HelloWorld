@@ -10,18 +10,17 @@ import android.util.Base64
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.crocodic.core.base.activity.CoreActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityAddFriendBinding
 import com.daniel.helloworld.pertemuan12.database.Friend
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -29,11 +28,10 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class AddFriendActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddFriendBinding
-
-    private lateinit var viewModel: FriendViewModel
+@AndroidEntryPoint
+class AddFriendActivity :
+    CoreActivity<ActivityAddFriendBinding, FriendViewModel>(R.layout.activity_add_friend) {
 
     private lateinit var photoFile: File
 
@@ -72,8 +70,6 @@ class AddFriendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_add_friend)
-
         enableEdgeToEdge()
 //        setContentView(R.layout.activity_add_friend)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -91,8 +87,6 @@ class AddFriendActivity : AppCompatActivity() {
 
         idFriend = intent.getIntExtra("id", 0)
 
-        val viewModelFactory = FriendVMFactory(this)
-        viewModel = ViewModelProvider(this, viewModelFactory)[FriendViewModel::class.java]
 
         if (idFriend != 0) {
             getFriend()
