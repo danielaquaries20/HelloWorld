@@ -36,13 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".pertemuan12.ListFriendActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".mytest.permission.TestGetPhotoActivity"
             android:exported="true" />
@@ -72,7 +66,13 @@
             android:exported="false" />
         <activity
             android:name=".mytest.mahasiswa.ui.MahasiswaActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".pertemuan9.MenuHomeActivity"
             android:exported="true" />

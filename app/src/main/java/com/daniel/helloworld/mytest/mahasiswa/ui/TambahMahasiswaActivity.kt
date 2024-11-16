@@ -13,13 +13,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.crocodic.core.base.activity.CoreActivity
@@ -38,7 +35,7 @@ import java.io.IOException
 class TambahMahasiswaActivity :
     CoreActivity<ActivityTambahMahasiswaBinding, MahasiswaViewModel>(R.layout.activity_tambah_mahasiswa),
     View.OnClickListener {
-
+        
     private lateinit var photoFile: File
 
     private var photoStr: String = ""

@@ -1,0 +1,70 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "29eab290dfed433fd42a58cce07cdfd6",
+    "entities": [
+      {
+        "tableName": "mahasiswa",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nim` TEXT NOT NULL, `nama` TEXT NOT NULL, `tglLahir` TEXT NOT NULL, `alamat` TEXT NOT NULL, `telepon` TEXT NOT NULL, `photo` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nim",
+            "columnName": "nim",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nama",
+            "columnName": "nama",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tglLahir",
+            "columnName": "tglLahir",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alamat",
+            "columnName": "alamat",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telepon",
+            "columnName": "telepon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photo",
+            "columnName": "photo",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '29eab290dfed433fd42a58cce07cdfd6')"
+    ]
+  }
+}

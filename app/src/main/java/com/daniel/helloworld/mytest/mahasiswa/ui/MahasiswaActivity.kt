@@ -37,23 +37,6 @@ class MahasiswaActivity :
             insets
         }
 
-        /*val database = AppDatabase.getDatabase(this)
-        val dao = database.mahasiswaDao()
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    dao.getAllItems().collect{
-                        Log.d("ListMhs", "V1: $it")
-                        listMhs.clear()
-                        listMhs.addAll(it)
-                        setData()
-                        Log.d("ListMhs", "V2: $listMhs")
-                    }
-                }
-            }
-        }*/
-
         adapter = RvMahasiswaAdapter(this) { pos, data ->
 
             val destination = Intent(this, TambahMahasiswaActivity::class.java).apply {
@@ -63,9 +46,10 @@ class MahasiswaActivity :
         }
         binding.rvMahasiswa.adapter = adapter
 
-        viewModel.getMhs()
+
         observe()
         setView()
+        viewModel.getMhs("")
 
         binding.etSearch.doOnTextChanged { text, start, before, count ->
             viewModel.getMhs(text.toString().trim())

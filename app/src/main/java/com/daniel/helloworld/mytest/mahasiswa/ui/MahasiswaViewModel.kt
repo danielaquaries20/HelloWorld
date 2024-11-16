@@ -28,8 +28,6 @@ class MahasiswaViewModel @Inject constructor(
         }
     }
 
-    fun getMhs() = mhsDao.getAllItems()
-
     fun getMhsById(id: Int) = mhsDao.getItem(id)
 
     suspend fun insertMhs(mhs: Mahasiswa) {

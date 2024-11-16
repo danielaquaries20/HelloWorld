@@ -1,0 +1,77 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "17275116c5e4bab800b880f4fc6d9312",
+    "entities": [
+      {
+        "tableName": "mahasiswa",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nim` TEXT NOT NULL, `nama` TEXT NOT NULL, `tglLahir` TEXT NOT NULL, `alamat` TEXT NOT NULL, `telepon` TEXT NOT NULL, `photo` TEXT NOT NULL, `description` TEXT NOT NULL DEFAULT '')",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nim",
+            "columnName": "nim",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nama",
+            "columnName": "nama",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tglLahir",
+            "columnName": "tglLahir",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alamat",
+            "columnName": "alamat",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telepon",
+            "columnName": "telepon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photo",
+            "columnName": "photo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '17275116c5e4bab800b880f4fc6d9312')"
+    ]
+  }
+}
