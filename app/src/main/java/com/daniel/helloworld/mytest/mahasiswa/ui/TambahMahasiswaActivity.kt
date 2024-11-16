@@ -22,9 +22,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.crocodic.core.base.activity.CoreActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityTambahMahasiswaBinding
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -32,11 +34,10 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class TambahMahasiswaActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var binding: ActivityTambahMahasiswaBinding
-
-    private lateinit var viewModel: MahasiswaViewModel
+@AndroidEntryPoint
+class TambahMahasiswaActivity :
+    CoreActivity<ActivityTambahMahasiswaBinding, MahasiswaViewModel>(R.layout.activity_tambah_mahasiswa),
+    View.OnClickListener {
 
     private lateinit var photoFile: File
 
@@ -84,10 +85,6 @@ class TambahMahasiswaActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_tambah_mahasiswa)
-        //setContentView(R.layout.activity_tambah_mahasiswa)
-        val viewModelFactory = MahasiswaViewModelFactory(this)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MahasiswaViewModel::class.java]
 
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

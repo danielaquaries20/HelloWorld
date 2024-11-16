@@ -2,6 +2,7 @@ package com.daniel.helloworld.di.module
 
 import android.content.Context
 import com.crocodic.core.data.CoreSession
+import com.daniel.helloworld.mytest.mahasiswa.data.AppDatabase
 import com.daniel.helloworld.pertemuan12.database.MyDatabase
 import dagger.Module
 import dagger.Provides
@@ -27,4 +28,13 @@ class AppModule {
     @Singleton
     @Provides
     fun provideFriendDao(database: MyDatabase) = database.friendDao()
+
+    @Singleton
+    @Provides
+    fun providesMhsDatabase(@ApplicationContext context: Context): AppDatabase =
+        AppDatabase.getDatabase(context)
+
+    @Singleton
+    @Provides
+    fun provideMhsDao(database: AppDatabase) = database.mahasiswaDao()
 }

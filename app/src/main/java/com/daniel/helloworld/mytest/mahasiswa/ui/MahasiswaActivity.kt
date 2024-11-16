@@ -4,25 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
-import androidx.databinding.DataBindingUtil
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.crocodic.core.base.activity.CoreActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var binding: ActivityMahasiswaBinding
-
-    private lateinit var viewModel: MahasiswaViewModel
+@AndroidEntryPoint
+class MahasiswaActivity :
+    CoreActivity<ActivityMahasiswaBinding, MahasiswaViewModel>(R.layout.activity_mahasiswa),
+    View.OnClickListener {
 
     private val listMhs = ArrayList<Mahasiswa>()
 
@@ -30,12 +30,6 @@ class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_mahasiswa)
-//        setContentView(R.layout.activity_mahasiswa)
-
-        val viewModelFactory = MahasiswaViewModelFactory(this)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MahasiswaViewModel::class.java]
-
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -69,9 +63,13 @@ class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
         }
         binding.rvMahasiswa.adapter = adapter
 
+        viewModel.getMhs()
         observe()
         setView()
 
+        binding.etSearch.doOnTextChanged { text, start, before, count ->
+            viewModel.getMhs(text.toString().trim())
+        }
 
     }
 
@@ -79,6 +77,15 @@ class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    viewModel.mhs.collect { data ->
+                        listMhs.clear()
+                        listMhs.addAll(data)
+                        adapter.setData(listMhs)
+                        if (listMhs.isEmpty()) binding.tvEmpty.isVisible = true
+                        else binding.tvEmpty.isVisible = false
+                    }
+                }
+                /*launch {
                     viewModel.getMhs().collect { data ->
                         data?.let {
                             listMhs.clear()
@@ -88,7 +95,7 @@ class MahasiswaActivity : AppCompatActivity(), View.OnClickListener {
                             else binding.tvEmpty.isVisible = false
                         }
                     }
-                }
+                }*/
             }
         }
     }

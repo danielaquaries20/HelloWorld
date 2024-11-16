@@ -2,7 +2,7 @@ package com.daniel.helloworld.mytest.mahasiswa.data
 
 import kotlinx.coroutines.flow.Flow
 
-class ImpMahasiswaRepository(private val dao: MahasiswaDao) : MahasiswaRepository {
+class ImpMahasiswaRepository(private val dao: MahasiswaDao) : MHSRepository {
     override fun getAllItems(): Flow<List<Mahasiswa>?> = dao.getAllItems()
 
     override fun getItem(id: Int): Flow<Mahasiswa?> = dao.getItem(id)

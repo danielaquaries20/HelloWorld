@@ -2,7 +2,7 @@ package com.daniel.helloworld.mytest.mahasiswa.data
 
 import kotlinx.coroutines.flow.Flow
 
-interface MahasiswaRepository {
+interface MHSRepository {
 
     fun getAllItems(): Flow<List<Mahasiswa>?>
 
