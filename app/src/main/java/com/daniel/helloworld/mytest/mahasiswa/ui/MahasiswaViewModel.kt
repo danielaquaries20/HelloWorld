@@ -4,7 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.crocodic.core.base.viewmodel.CoreViewModel
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
 import com.daniel.helloworld.mytest.mahasiswa.data.MahasiswaDao
+import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.data.repo.MahasiswaRepository
+import com.daniel.helloworld.mytest.mahasiswa.data.repo.product.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -15,9 +17,18 @@ import javax.inject.Inject
 @HiltViewModel
 class MahasiswaViewModel @Inject constructor(
     private val mhsDao: MahasiswaDao,
-    private val mahasiswaRepository: MahasiswaRepository
+    private val mahasiswaRepository: MahasiswaRepository,
+    private val productRepository: ProductRepository
 ) : CoreViewModel() {
 
+    private val _product = MutableSharedFlow<List<Product>>()
+    val product = _product.asSharedFlow()
+
+    fun getProduct(keyword: String = "") = viewModelScope.launch {
+        productRepository.getProducts(keyword).collect {
+            _product.emit(it)
+        }
+    }
 
     private val _mhs = MutableSharedFlow<List<Mahasiswa>>()
     val mhs = _mhs.asSharedFlow()

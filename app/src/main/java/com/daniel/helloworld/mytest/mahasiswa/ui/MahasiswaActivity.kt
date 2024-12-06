@@ -15,6 +15,8 @@ import com.crocodic.core.base.activity.CoreActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
+import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
+import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,8 +27,10 @@ class MahasiswaActivity :
     View.OnClickListener {
 
     private val listMhs = ArrayList<Mahasiswa>()
+    private val listProduct = ArrayList<Product>()
 
-    private lateinit var adapter: RvMahasiswaAdapter
+    //    private lateinit var adapter: RvMahasiswaAdapter
+    private lateinit var adapter: RvProductAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,22 +41,25 @@ class MahasiswaActivity :
             insets
         }
 
-        adapter = RvMahasiswaAdapter(this) { pos, data ->
+        /*adapter = RvMahasiswaAdapter(this) { pos, data ->
 
             val destination = Intent(this, TambahMahasiswaActivity::class.java).apply {
                 putExtra("id_mhs", data.id)
             }
             startActivity(destination)
-        }
+        }*/
+        adapter = RvProductAdapter(this)
         binding.rvMahasiswa.adapter = adapter
 
 
         observe()
         setView()
-        viewModel.getMhs("")
+//        viewModel.getMhs("")
+        viewModel.getProduct("")
 
         binding.etSearch.doOnTextChanged { text, start, before, count ->
-            viewModel.getMhs(text.toString().trim())
+//            viewModel.getMhs(text.toString().trim())
+            viewModel.getProduct(text.toString().trim())
         }
 
     }
@@ -61,11 +68,18 @@ class MahasiswaActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.mhs.collect { data ->
+                    /*viewModel.mhs.collect { data ->
                         listMhs.clear()
                         listMhs.addAll(data)
                         adapter.setData(listMhs)
                         if (listMhs.isEmpty()) binding.tvEmpty.isVisible = true
+                        else binding.tvEmpty.isVisible = false
+                    }*/
+                    viewModel.product.collect { data ->
+                        listProduct.clear()
+                        listProduct.addAll(data)
+                        adapter.setData(listProduct)
+                        if (listProduct.isEmpty()) binding.tvEmpty.isVisible = true
                         else binding.tvEmpty.isVisible = false
                     }
                 }
@@ -100,8 +114,8 @@ class MahasiswaActivity :
     override fun onClick(v: View?) {
         when (v) {
             binding.ftbAdd -> {
-                val destination = Intent(this, TambahMahasiswaActivity::class.java)
-                startActivity(destination)
+                /*val destination = Intent(this, TambahMahasiswaActivity::class.java)
+                startActivity(destination)*/
             }
         }
     }
