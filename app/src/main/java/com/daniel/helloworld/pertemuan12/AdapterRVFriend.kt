@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.daniel.helloworld.R
 import com.daniel.helloworld.pertemuan10.RvFriendAdapter
-import com.daniel.helloworld.pertemuan12.database.Friend
+import com.daniel.helloworld.pertemuan12.data.DataProduct
 
 class AdapterRVFriend(
     private val context: Context,
-    private val onItemClick: (position: Int, data: Friend) -> Unit
+//    private val onItemClick: (position: Int, data: Friend) -> Unit
 ) : RecyclerView.Adapter<RvFriendAdapter.Companion.FriendViewHolder>() {
 
-    private var listItem = emptyList<Friend>()
+    private var listItem = emptyList<DataProduct>()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -33,17 +33,17 @@ class AdapterRVFriend(
     ) {
         val currentItem = listItem[position]
 
-        holder.tvName.text = currentItem.name
-        holder.tvSchool.text = currentItem.school
-        val photoBtm = AddFriendActivity().stringToBitmap(currentItem.photo)
+        holder.tvName.text = currentItem.title
+        holder.tvSchool.text = currentItem.description
+        /*val photoBtm = AddFriendActivity().stringToBitmap(currentItem.photo)
         photoBtm?.let {
             holder.ivPhoto.setImageBitmap(it)
-        }
+        }*/
 
-        holder.itemView.setOnClickListener { onItemClick(position, currentItem) }
+//        holder.itemView.setOnClickListener { onItemClick(position, currentItem) }
     }
 
-    fun setData(list: List<Friend>) {
+    fun setData(list: List<DataProduct>) {
         this.listItem = list
         notifyDataSetChanged()
     }

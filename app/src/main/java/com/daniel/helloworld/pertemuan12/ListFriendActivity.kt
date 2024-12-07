@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.crocodic.core.base.activity.CoreActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityListFriendBinding
+import com.daniel.helloworld.pertemuan12.data.DataProduct
 import com.daniel.helloworld.pertemuan12.database.Friend
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -21,6 +22,7 @@ class ListFriendActivity :
     CoreActivity<ActivityListFriendBinding, FriendViewModel>(R.layout.activity_list_friend) {
 
     private var friendList = ArrayList<Friend>()
+    private var productList = ArrayList<DataProduct>()
 
     private lateinit var adapter: AdapterRVFriend
 
@@ -34,28 +36,39 @@ class ListFriendActivity :
             insets
         }
 
-        adapter = AdapterRVFriend(this) { position, data ->
+        /*adapter = AdapterRVFriend(this) { position, data ->
             val destination = Intent(this, AddFriendActivity::class.java).apply {
                 putExtra("id", data.id)
             }
             startActivity(destination)
-        }
+        }*/
+        adapter = AdapterRVFriend(this)
 
-        viewModel.getFriend()
+//        viewModel.getFriend()
+        viewModel.getProduct()
         binding.etSearch.doOnTextChanged { text, start, before, count ->
             val keyword = "%${text.toString().trim()}%"
-            viewModel.getFriend(keyword)
+//            viewModel.getFriend(keyword)
+            viewModel.getProduct(keyword)
         }
 
         binding.rvShowData.adapter = adapter
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
+                /*launch {
                     viewModel.friends.collect { friends ->
                         friendList.clear()
                         friendList.addAll(friends)
                         adapter.setData(friendList)
+                    }
+                }*/
+
+                launch {
+                    viewModel.product.collect { data ->
+                        productList.clear()
+                        productList.addAll(data)
+                        adapter.setData(productList)
                     }
                 }
 

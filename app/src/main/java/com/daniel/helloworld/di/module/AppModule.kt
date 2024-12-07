@@ -5,6 +5,7 @@ import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.daniel.helloworld.mytest.mahasiswa.api.ApiService
 import com.daniel.helloworld.mytest.mahasiswa.data.AppDatabase
+import com.daniel.helloworld.pertemuan12.api.ApiServiceProduct
 import com.daniel.helloworld.pertemuan12.database.MyDatabase
 import dagger.Module
 import dagger.Provides
@@ -44,6 +45,16 @@ class AppModule {
     @Singleton
     @Provides
     fun provideApiService(): ApiService {
+        return NetworkHelper.provideApiService(
+            baseUrl = "https://dummyjson.com/",
+            okHttpClient = NetworkHelper.provideOkHttpClient(),
+            converterFactory = listOf(GsonConverterFactory.create())
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideApiServiceProduct(): ApiServiceProduct {
         return NetworkHelper.provideApiService(
             baseUrl = "https://dummyjson.com/",
             okHttpClient = NetworkHelper.provideOkHttpClient(),
