@@ -1,6 +1,5 @@
 package com.daniel.helloworld.mytest.mahasiswa.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +16,8 @@ import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
+import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtFilter
+import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtSort
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -108,14 +109,27 @@ class MahasiswaActivity :
      }*/
 
     private fun setView() {
-        binding.ftbAdd.setOnClickListener(this)
+        binding.ftbFilter.setOnClickListener(this)
+        binding.ftbSort.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.ftbAdd -> {
+            binding.ftbSort -> {
+                val btmShtSort = TestBtmShtSort { sortBy, orderBy ->
+                    viewModel.sortProduct(sortBy, orderBy)
+                }
+
+                btmShtSort.show(supportFragmentManager, "BtmShtSortingData")
                 /*val destination = Intent(this, TambahMahasiswaActivity::class.java)
                 startActivity(destination)*/
+            }
+
+            binding.ftbFilter -> {
+                val btmShtFilter = TestBtmShtFilter { filterBy ->
+                    viewModel.filterProduct(filterBy)
+                }
+                btmShtFilter.show(supportFragmentManager, "BtmShtFilteringData")
             }
         }
     }

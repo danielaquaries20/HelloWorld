@@ -30,6 +30,18 @@ class MahasiswaViewModel @Inject constructor(
         }
     }
 
+    fun sortProduct(sortBy: String = "", orderBy: String = "") = viewModelScope.launch {
+        productRepository.sortProducts(sortBy, orderBy).collect {
+            _product.emit(it)
+        }
+    }
+
+    fun filterProduct(filterBy: String = "") = viewModelScope.launch {
+        productRepository.filterProducts(filterBy).collect {
+            _product.emit(it)
+        }
+    }
+
     private val _mhs = MutableSharedFlow<List<Mahasiswa>>()
     val mhs = _mhs.asSharedFlow()
 

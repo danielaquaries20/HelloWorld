@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
     fun getProducts(keyword: String): Flow<List<Product>>
+    fun sortProducts(sortBy: String, orderBy: String): Flow<List<Product>>
+    fun filterProducts(filterBy: String): Flow<List<Product>>
 }
