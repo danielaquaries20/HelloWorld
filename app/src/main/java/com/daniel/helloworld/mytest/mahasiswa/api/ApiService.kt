@@ -25,4 +25,11 @@ interface ApiService {
         @Query("sortBy") sortBy: String,
         @Query("order") order: String
     ): ProductResponse
+
+    @GET("products")
+    suspend fun pagingProducts(
+        @Query("limit") limit: Int,
+        @Query("skip") skip: Int,
+        @Query("select") select: String
+    ): ProductResponse
 }

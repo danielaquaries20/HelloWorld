@@ -1,5 +1,6 @@
 package com.daniel.helloworld.pertemuan12.repository
 
+import android.util.Log
 import com.crocodic.core.api.ApiObserver
 import com.daniel.helloworld.pertemuan12.api.ApiServiceProduct
 import com.daniel.helloworld.pertemuan12.data.DataProduct
@@ -17,6 +18,7 @@ class ImplDataProductRepo @Inject constructor(private val apiServiceProduct: Api
             false,
             object : ApiObserver.ModelResponseListener<ResponseDataProduct> {
                 override suspend fun onSuccess(response: ResponseDataProduct) {
+                    Log.d("API", "Data Response: ${response.products}")
                     emit(response.products)
                 }
 

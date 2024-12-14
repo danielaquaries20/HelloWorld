@@ -57,5 +57,12 @@ class ProductRepositoryImpl @Inject constructor(private val apiService: ApiServi
             })
     }
 
+    override fun pagingProducts(limit: Int, skip: Int, select: String): Flow<List<Product>> {
+        return flow {
+            val response = apiService.pagingProducts(limit, skip, select)
+            emit(response.product ?: return@flow)
+        }
+    }
+
 
 }

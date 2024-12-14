@@ -5,14 +5,17 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.crocodic.core.base.activity.CoreActivity
+import com.crocodic.core.base.adapter.PaginationAdapter
+import com.crocodic.core.base.adapter.PaginationLoadState
+import com.crocodic.core.data.CoreSession
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
+import com.daniel.helloworld.databinding.ItemMahasiswaBinding
 import com.daniel.helloworld.mytest.btm_sht.BottomSheetSorting
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
@@ -20,7 +23,9 @@ import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
 import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtFilter
 import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtSort
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -31,11 +36,19 @@ class MahasiswaActivity :
     private val listMhs = ArrayList<Mahasiswa>()
     private val listProduct = ArrayList<Product>()
 
+    @Inject
+    lateinit var coreSession:CoreSession
+
     //    private lateinit var adapter: RvMahasiswaAdapter
     private lateinit var adapter: RvProductAdapter
 
+    private val adapterCore by lazy {
+        PaginationAdapter<ItemMahasiswaBinding, Product>(R.layout.item_mahasiswa)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        coreSession.setValue("page", 0)
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -50,14 +63,20 @@ class MahasiswaActivity :
             }
             startActivity(destination)
         }*/
-        adapter = RvProductAdapter(this)
-        binding.rvMahasiswa.adapter = adapter
+//        adapter = RvProductAdapter(this)
+//        binding.rvMahasiswa.adapter = adapterCore
+        with(adapterCore) {
+            binding.rvMahasiswa.adapter = withLoadStateFooter(PaginationLoadState.default)
+        }
 
 
         observe()
         setView()
 //        viewModel.getMhs("")
-        viewModel.getProduct("")
+//        viewModel.getProduct()
+        lifecycleScope.launch {
+            viewModel.queries.emit(Triple("title", "description", "price"))
+        }
 
         binding.etSearch.doOnTextChanged { text, start, before, count ->
 //            viewModel.getMhs(text.toString().trim())
@@ -77,12 +96,16 @@ class MahasiswaActivity :
                         if (listMhs.isEmpty()) binding.tvEmpty.isVisible = true
                         else binding.tvEmpty.isVisible = false
                     }*/
-                    viewModel.product.collect { data ->
+                    /*viewModel.product.collect { data ->
                         listProduct.clear()
                         listProduct.addAll(data)
                         adapter.setData(listProduct)
-                        if (listProduct.isEmpty()) binding.tvEmpty.isVisible = true
+                        adapterCore.submitList(data)
+                        if (data.isEmpty()) binding.tvEmpty.isVisible = true
                         else binding.tvEmpty.isVisible = false
+                    }*/
+                    viewModel.getPagingProducts().collectLatest { data ->
+                        adapterCore.submitData(data)
                     }
                 }
                 /*launch {
@@ -115,7 +138,7 @@ class MahasiswaActivity :
     }
 
     private fun showBottomSheet() {
-        val sortBtmSht = BottomSheetSorting {sortBy, orderBy ->
+        val sortBtmSht = BottomSheetSorting { sortBy, orderBy ->
             // Perintah yang diperlukan
             viewModel.sortProduct(sortBy, orderBy)
         }
