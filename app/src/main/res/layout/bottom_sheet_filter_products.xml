@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter Products"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <RadioGroup
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/filter_tops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tops" />
+
+        <RadioButton
+            android:id="@+id/filter_vehicle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vehicle" />
+
+        <RadioButton
+            android:id="@+id/filter_laptops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Laptops" />
+
+        <RadioButton
+            android:id="@+id/filter_motorcycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Motorcycle" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_simpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@android:color/holo_purple"
+        android:text="Simpan" />
+
+
+</LinearLayout>

@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.crocodic.core.base.activity.CoreActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
+import com.daniel.helloworld.mytest.btm_sht.BottomSheetSorting
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
@@ -111,6 +112,14 @@ class MahasiswaActivity :
     private fun setView() {
         binding.ftbFilter.setOnClickListener(this)
         binding.ftbSort.setOnClickListener(this)
+    }
+
+    private fun showBottomSheet() {
+        val sortBtmSht = BottomSheetSorting {sortBy, orderBy ->
+            // Perintah yang diperlukan
+            viewModel.sortProduct(sortBy, orderBy)
+        }
+        sortBtmSht.show(supportFragmentManager, "Sorting")
     }
 
     override fun onClick(v: View?) {
