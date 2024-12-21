@@ -1,6 +1,10 @@
 package com.daniel.helloworld.pertemuan12
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.crocodic.core.base.adapter.CorePagingSource
 import com.crocodic.core.base.viewmodel.CoreViewModel
 import com.daniel.helloworld.pertemuan12.data.DataProduct
 import com.daniel.helloworld.pertemuan12.database.Friend
@@ -8,8 +12,12 @@ import com.daniel.helloworld.pertemuan12.database.FriendDao
 import com.daniel.helloworld.pertemuan12.database.repo.FriendRepository
 import com.daniel.helloworld.pertemuan12.repository.DataProductsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,6 +27,22 @@ class FriendViewModel @Inject constructor(
     private val dataProductsRepo: DataProductsRepo,
     private val friendDao: FriendDao
 ) : CoreViewModel() {
+
+    val queries = MutableStateFlow<Triple<String?, String?, String?>>(Triple(null, null, null))
+
+    fun getPagingProducts() : Flow<PagingData<DataProduct>> {
+        return queries.flatMapLatest {
+            Pager(
+                config = CorePagingSource.config(10),
+                pagingSourceFactory = {
+                    CorePagingSource(0) {page: Int, limit: Int ->
+                        dataProductsRepo.pagingProducts(limit, page).first()
+                    }
+                }
+            ).flow.cachedIn(viewModelScope)
+        }
+    }
+
 
     private val _product = MutableSharedFlow<List<DataProduct>>()
     val product = _product.asSharedFlow()

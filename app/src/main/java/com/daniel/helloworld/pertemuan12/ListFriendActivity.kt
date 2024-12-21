@@ -1,7 +1,6 @@
 package com.daniel.helloworld.pertemuan12
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -10,7 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.crocodic.core.base.activity.CoreActivity
-import com.crocodic.core.base.adapter.ReactiveListAdapter
+import com.crocodic.core.base.adapter.PaginationAdapter
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityListFriendBinding
 import com.daniel.helloworld.databinding.ItemFriendBinding
@@ -19,6 +18,7 @@ import com.daniel.helloworld.pertemuan12.btm_sht.BottomSheetSortingProducts
 import com.daniel.helloworld.pertemuan12.data.DataProduct
 import com.daniel.helloworld.pertemuan12.database.Friend
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -31,7 +31,7 @@ class ListFriendActivity :
     private lateinit var adapter: AdapterRVFriend
 
     private val adapterCore by lazy {
-        ReactiveListAdapter<ItemFriendBinding, DataProduct>(R.layout.item_friend)
+        PaginationAdapter<ItemFriendBinding, DataProduct>(R.layout.item_friend)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,9 @@ class ListFriendActivity :
         binding.rvShowData.adapter = adapterCore
 
 //        viewModel.getFriend()
-        viewModel.getProduct()
+        lifecycleScope.launch {
+            viewModel.queries.emit(Triple("", "", ""))
+        }
         binding.etSearch.doOnTextChanged { text, start, before, count ->
             val keyword = "%${text.toString().trim()}%"
 //            viewModel.getFriend(keyword)
@@ -73,13 +75,8 @@ class ListFriendActivity :
                 }*/
 
                 launch {
-                    viewModel.product.collect { data ->
-                        Log.d("API", "Data Response: ${data}")
-
-                        adapterCore.submitList(data)
-//                        productList.clear()
-//                        productList.addAll(data)
-//                        adapter.setData(productList)
+                    viewModel.getPagingProducts().collectLatest { data ->
+                        adapterCore.submitData(data)
                     }
                 }
 

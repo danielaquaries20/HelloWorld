@@ -43,7 +43,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{data.title}'
+                    android:text='@{data.id + " | " + data.title}'
                     android:textSize="16sp" />
 
                 <TextView
