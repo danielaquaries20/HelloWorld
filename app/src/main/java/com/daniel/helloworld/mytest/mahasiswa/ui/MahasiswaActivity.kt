@@ -13,6 +13,7 @@ import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.base.adapter.PaginationAdapter
 import com.crocodic.core.base.adapter.PaginationLoadState
 import com.crocodic.core.data.CoreSession
+import com.crocodic.core.extension.openActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
 import com.daniel.helloworld.databinding.ItemMahasiswaBinding
@@ -22,6 +23,8 @@ import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
 import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtFilter
 import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtSort
+import com.daniel.helloworld.mytest.mahasiswa.ui.detail.DetailMahasiswaActivity
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,18 +40,26 @@ class MahasiswaActivity :
     private val listProduct = ArrayList<Product>()
 
     @Inject
-    lateinit var coreSession:CoreSession
+    lateinit var coreSession: CoreSession
+
+    @Inject
+    lateinit var gson: Gson
 
     //    private lateinit var adapter: RvMahasiswaAdapter
     private lateinit var adapter: RvProductAdapter
 
     private val adapterCore by lazy {
-        PaginationAdapter<ItemMahasiswaBinding, Product>(R.layout.item_mahasiswa)
+        PaginationAdapter<ItemMahasiswaBinding, Product>(R.layout.item_mahasiswa).initItem {position, data ->
+            openActivity<DetailMahasiswaActivity>{
+                val jsonData = gson.toJson(data)
+                putExtra(DetailMahasiswaActivity.DATA, jsonData)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        coreSession.setValue("page", 0)
+
         enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -75,7 +86,7 @@ class MahasiswaActivity :
 //        viewModel.getMhs("")
 //        viewModel.getProduct()
         lifecycleScope.launch {
-            viewModel.queries.emit(Triple("title", "description", "price"))
+            viewModel.queries.emit(Triple("title", "description", "thumbnail"))
         }
 
         binding.etSearch.doOnTextChanged { text, start, before, count ->
@@ -85,6 +96,10 @@ class MahasiswaActivity :
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        coreSession.setValue("page", 0)
+    }
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -1,28 +1,33 @@
 package com.daniel.helloworld.mytest.mahasiswa.ui.detail
 
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.databinding.DataBindingUtil
+import com.crocodic.core.base.activity.NoViewModelActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityDetailMahasiswaBinding
+import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
+import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class DetailMahasiswaActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class DetailMahasiswaActivity :
+    NoViewModelActivity<ActivityDetailMahasiswaBinding>(R.layout.activity_detail_mahasiswa) {
 
     /*private lateinit var tvName: TextView
     private lateinit var tvSchool: TextView
     private lateinit var ivPhoto: ImageView*/
 
-    private lateinit var binding: ActivityDetailMahasiswaBinding
+//    private lateinit var binding: ActivityDetailMahasiswaBinding
+
+    @Inject
+    lateinit var gson: Gson
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_mahasiswa)
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_mahasiswa)
 //        setContentView(R.layout.activity_detail_mahasiswa)
 
         enableEdgeToEdge()
@@ -32,23 +37,31 @@ class DetailMahasiswaActivity : AppCompatActivity() {
             insets
         }
 
+        val jsonData = intent.getStringExtra(DATA)
+
+        binding.data = gson.fromJson(jsonData, Product::class.java)
+
         /*tvName = findViewById(R.id.tv_name)
         tvSchool = findViewById(R.id.tv_school)
         ivPhoto = findViewById(R.id.iv_photo)*/
 
-        binding.nameStudent = intent.getStringExtra("name")
-        binding.school = intent.getStringExtra("school")
-        binding.photo = byteArrayToDrawable(intent.getByteArrayExtra("photo"))
+        /* binding.nameStudent = intent.getStringExtra("name")
+         binding.school = intent.getStringExtra("school")
+         binding.photo = byteArrayToDrawable(intent.getByteArrayExtra("photo"))*/
 //        if (photo != null) binding.ivPhoto.setImageDrawable(photo)
 
     }
 
-    private fun byteArrayToDrawable(byteArray: ByteArray?): Drawable? {
+    /*private fun byteArrayToDrawable(byteArray: ByteArray?): Drawable? {
         return if (byteArray != null) {
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 
             val drawable = BitmapDrawable(resources, bitmap)
             drawable
         } else null
+    }*/
+
+    companion object {
+        const val DATA = "data"
     }
 }

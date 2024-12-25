@@ -13,5 +13,8 @@ data class Product(
     val description: String,
 
     @SerializedName("category")
-    val category: String
+    val category: String,
+
+    @SerializedName("thumbnail")
+    val image: String
 )

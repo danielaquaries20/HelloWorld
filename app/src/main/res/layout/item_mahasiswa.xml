@@ -29,6 +29,7 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
+                urlImage='@{data.image}'
                 android:src="@drawable/person_icon" />
 
             <LinearLayout
