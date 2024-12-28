@@ -10,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.base.adapter.PaginationAdapter
+import com.crocodic.core.extension.openActivity
+import com.crocodic.core.extension.toJson
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityListFriendBinding
 import com.daniel.helloworld.databinding.ItemFriendBinding
@@ -17,9 +19,11 @@ import com.daniel.helloworld.pertemuan12.btm_sht.BottomSheetFilterProducts
 import com.daniel.helloworld.pertemuan12.btm_sht.BottomSheetSortingProducts
 import com.daniel.helloworld.pertemuan12.data.DataProduct
 import com.daniel.helloworld.pertemuan12.database.Friend
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListFriendActivity :
@@ -30,8 +34,16 @@ class ListFriendActivity :
 
     private lateinit var adapter: AdapterRVFriend
 
+    @Inject
+    lateinit var gson: Gson
+
     private val adapterCore by lazy {
-        PaginationAdapter<ItemFriendBinding, DataProduct>(R.layout.item_friend)
+        PaginationAdapter<ItemFriendBinding, DataProduct>(R.layout.item_friend).initItem { position, data ->
+            openActivity<DetailProductActivity> {
+                val dataProduct = data.toJson(gson)
+                putExtra(DetailProductActivity.DATA, dataProduct)
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

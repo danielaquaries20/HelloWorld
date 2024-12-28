@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
@@ -23,6 +22,9 @@
         android:theme="@style/Theme.HelloWorld"
         tools:targetApi="31">
         <activity
+            android:name=".pertemuan12.DetailProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".pertemuan13.CameraGalleryActivity"
             android:exported="true" />
         <activity
@@ -37,6 +39,11 @@
         <activity
             android:name=".pertemuan12.ListFriendActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -69,11 +76,6 @@
         <activity
             android:name=".mytest.mahasiswa.ui.MahasiswaActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".pertemuan9.MenuHomeActivity"

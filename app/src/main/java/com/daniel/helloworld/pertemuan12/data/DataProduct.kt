@@ -9,4 +9,6 @@ data class DataProduct(
     val title: String,
     @SerializedName("description")
     val description: String,
+    @SerializedName("thumbnail")
+    val thumbnail: String,
 )

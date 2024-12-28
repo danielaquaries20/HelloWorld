@@ -3,6 +3,7 @@
 <layout>
 
     <data>
+
         <variable
             name="data"
             type="com.daniel.helloworld.pertemuan12.data.DataProduct" />
@@ -22,6 +23,7 @@
 
             <ImageView
                 android:id="@+id/iv_photo"
+                urlImage='@{data.thumbnail}'
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="16dp"
