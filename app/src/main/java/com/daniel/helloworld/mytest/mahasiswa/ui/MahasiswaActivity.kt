@@ -49,8 +49,8 @@ class MahasiswaActivity :
     private lateinit var adapter: RvProductAdapter
 
     private val adapterCore by lazy {
-        PaginationAdapter<ItemMahasiswaBinding, Product>(R.layout.item_mahasiswa).initItem {position, data ->
-            openActivity<DetailMahasiswaActivity>{
+        PaginationAdapter<ItemMahasiswaBinding, Product>(R.layout.item_mahasiswa).initItem { position, data ->
+            openActivity<DetailMahasiswaActivity> {
                 val jsonData = gson.toJson(data)
                 putExtra(DetailMahasiswaActivity.DATA, jsonData)
             }
@@ -85,6 +85,7 @@ class MahasiswaActivity :
         setView()
 //        viewModel.getMhs("")
 //        viewModel.getProduct()
+        viewModel.getSlider()
         lifecycleScope.launch {
             viewModel.queries.emit(Triple("title", "description", "thumbnail"))
         }
@@ -100,6 +101,7 @@ class MahasiswaActivity :
         super.onStart()
         coreSession.setValue("page", 0)
     }
+
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -121,6 +123,11 @@ class MahasiswaActivity :
                     }*/
                     viewModel.getPagingProducts().collectLatest { data ->
                         adapterCore.submitData(data)
+                    }
+                }
+                launch {
+                    viewModel.imageSliderResponse.collect {
+                        binding.ivSlider.setImageList(it)
                     }
                 }
                 /*launch {

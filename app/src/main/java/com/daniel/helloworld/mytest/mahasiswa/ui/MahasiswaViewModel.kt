@@ -12,6 +12,7 @@ import com.daniel.helloworld.mytest.mahasiswa.data.MahasiswaDao
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.data.repo.MahasiswaRepository
 import com.daniel.helloworld.mytest.mahasiswa.data.repo.product.ProductRepository
+import com.denzcoskun.imageslider.models.SlideModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,6 +31,19 @@ class MahasiswaViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val coreSession: CoreSession
 ) : CoreViewModel() {
+
+    private val _imageSliderResponse = MutableSharedFlow<List<SlideModel>>()
+    val imageSliderResponse = _imageSliderResponse.asSharedFlow()
+
+    fun getSlider() = viewModelScope.launch {
+        productRepository.sliderProducts().collect {list ->
+            val data = ArrayList<SlideModel>()
+            list.forEach {
+                data.add(SlideModel(it.image, it.title))
+            }
+            _imageSliderResponse.emit(data)
+        }
+    }
 
     private val _product = MutableSharedFlow<List<Product>>()
     val product = _product.asSharedFlow()

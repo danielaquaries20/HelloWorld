@@ -11,4 +11,6 @@ interface ProductRepository {
     fun filterProducts(filterBy: String): Flow<List<Product>>
 
     fun pagingProducts(limit: Int, skip: Int, select: String): Flow<List<Product>>
+
+    fun sliderProducts(): Flow<List<Product>>
 }

@@ -85,6 +85,7 @@ dependencies {
 
     implementation(libs.fragmentKtx)
     implementation(libs.coreCrocodic)
+    implementation(libs.imageSlider)
 }
 
 kapt {

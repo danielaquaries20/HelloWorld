@@ -64,5 +64,20 @@ class ProductRepositoryImpl @Inject constructor(private val apiService: ApiServi
         }
     }
 
+    override fun sliderProducts(): Flow<List<Product>> = flow {
+        ApiObserver.run(
+            { apiService.slider() },
+            false,
+            object : ApiObserver.ModelResponseListener<ProductResponse> {
+                override suspend fun onSuccess(response: ProductResponse) {
+                    emit(response.product)
+                }
+
+                override suspend fun onError(response: ProductResponse) {
+                    emit(emptyList())
+                }
+            })
+    }
+
 
 }

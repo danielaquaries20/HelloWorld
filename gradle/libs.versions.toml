@@ -20,6 +20,7 @@ firebaseGms = "4.4.2"
 firebaseCrashlytic = "2.9.2"
 firebasePerf = "1.4.2"
 coreCrocodic = "4.0.11"
+imageSlider = "0.1.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +42,7 @@ daggerHilt = {group = "com.google.dagger", name = "hilt-android", version.ref = 
 daggerHiltCompiler = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "daggerHilt"}
 fragmentKtx = {group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx"}
 coreCrocodic = {group = "com.github.crocodic-studio", name = "AndroidCoreProject", version.ref = "coreCrocodic"}
+imageSlider = {group = "com.github.denzcoskun", name = "ImageSlideshow", version.ref = "imageSlider"}
 
 
 [plugins]
