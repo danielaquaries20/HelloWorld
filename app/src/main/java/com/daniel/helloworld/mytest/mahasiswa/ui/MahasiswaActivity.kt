@@ -9,21 +9,25 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.base.adapter.PaginationAdapter
 import com.crocodic.core.base.adapter.PaginationLoadState
 import com.crocodic.core.data.CoreSession
+import com.crocodic.core.extension.clearNotification
 import com.crocodic.core.extension.openActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
 import com.daniel.helloworld.databinding.ItemMahasiswaBinding
 import com.daniel.helloworld.mytest.btm_sht.BottomSheetSorting
 import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
+import com.daniel.helloworld.mytest.mahasiswa.data.UserDao
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
 import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtFilter
 import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtSort
 import com.daniel.helloworld.mytest.mahasiswa.ui.detail.DetailMahasiswaActivity
+import com.daniel.helloworld.mytest.mahasiswa.ui.login.LoginActivity
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -44,6 +48,9 @@ class MahasiswaActivity :
 
     @Inject
     lateinit var gson: Gson
+
+    @Inject
+    lateinit var userDao: UserDao
 
     //    private lateinit var adapter: RvMahasiswaAdapter
     private lateinit var adapter: RvProductAdapter
@@ -130,6 +137,22 @@ class MahasiswaActivity :
                         binding.ivSlider.setImageList(it)
                     }
                 }
+                launch {
+                    viewModel.apiResponse.collect {
+                        if (it.status == ApiStatus.LOADING) {
+                            loadingDialog.show("Logout")
+                        } else {
+                            loadingDialog.dismiss()
+                        }
+                        if (it.status == ApiStatus.SUCCESS) {
+                            loadingDialog.dismiss()
+                            expiredDialog.dismiss()
+                            clearNotification()
+                            openActivity<LoginActivity>()
+                            finishAffinity()
+                        }
+                    }
+                }
                 /*launch {
                     viewModel.getMhs().collect { data ->
                         data?.let {
@@ -170,6 +193,7 @@ class MahasiswaActivity :
     override fun onClick(v: View?) {
         when (v) {
             binding.ftbSort -> {
+//                viewModel.logout()
                 val btmShtSort = TestBtmShtSort { sortBy, orderBy ->
                     viewModel.sortProduct(sortBy, orderBy)
                 }

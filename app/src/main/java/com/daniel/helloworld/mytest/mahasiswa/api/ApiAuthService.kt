@@ -1,8 +1,10 @@
 package com.daniel.helloworld.mytest.mahasiswa.api
 
+import com.daniel.helloworld.mytest.mahasiswa.data.response.LogoutResponse
 import com.daniel.helloworld.mytest.mahasiswa.data.response.UserResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiAuthService {
@@ -13,5 +15,8 @@ interface ApiAuthService {
         @Field("email") email: String,
         @Field("password") password: String,
     ): UserResponse
+
+    @GET("auth/logout")
+    suspend fun logout(): LogoutResponse
 
 }

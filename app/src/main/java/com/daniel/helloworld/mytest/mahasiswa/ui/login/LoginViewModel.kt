@@ -22,9 +22,10 @@ class LoginViewModel @Inject constructor(
 
     override fun apiRenewToken() {}
 
-    fun login(email: String, paswword: String) = viewModelScope.launch {
+    fun login(email: String, pasword: String) = viewModelScope.launch {
+        _apiResponse.emit(ApiResponse().responseLoading())
         ApiObserver.run(
-            { apiAuthService.login(email, paswword) },
+            { apiAuthService.login(email, pasword) },
             false,
             object : ApiObserver.ModelResponseListener<UserResponse> {
                 override suspend fun onSuccess(response: UserResponse) {
@@ -37,4 +38,6 @@ class LoginViewModel @Inject constructor(
                 }
             })
     }
+
+
 }

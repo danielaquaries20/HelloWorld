@@ -51,6 +51,7 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
         lifecycleScope.launch {
             if (userDao.checkLogin() != null) {
                 openActivity<MahasiswaActivity>()
+                finish()
                 tos("1")
             } else {
                 tos("2")
@@ -66,9 +67,9 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                 launch {
                     viewModel.apiResponse.collect {
                         if (it.status == ApiStatus.LOADING) {
-                            progressDialog.show()
+                            loadingDialog.show("Login")
                         } else {
-                            progressDialog.dismiss()
+                            loadingDialog.dismiss()
                         }
                         if (it.status == ApiStatus.SUCCESS) {
                             openActivity<MahasiswaActivity>()
