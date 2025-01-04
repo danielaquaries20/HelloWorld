@@ -3,6 +3,7 @@ package com.daniel.helloworld.di.module
 import android.content.Context
 import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
+import com.daniel.helloworld.mytest.mahasiswa.api.ApiAuthService
 import com.daniel.helloworld.mytest.mahasiswa.api.ApiService
 import com.daniel.helloworld.mytest.mahasiswa.data.AppDatabase
 import com.daniel.helloworld.pertemuan12.api.ApiServiceProduct
@@ -48,6 +49,10 @@ class AppModule {
 
     @Singleton
     @Provides
+    fun provideUserDao(database: AppDatabase) = database.userDao()
+
+    @Singleton
+    @Provides
     fun provideApiService(): ApiService {
         return NetworkHelper.provideApiService(
             baseUrl = "https://dummyjson.com/",
@@ -61,6 +66,16 @@ class AppModule {
     fun provideApiServiceProduct(): ApiServiceProduct {
         return NetworkHelper.provideApiService(
             baseUrl = "https://dummyjson.com/",
+            okHttpClient = NetworkHelper.provideOkHttpClient(),
+            converterFactory = listOf(GsonConverterFactory.create())
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideApiAuthService(): ApiAuthService {
+        return NetworkHelper.provideApiService(
+            baseUrl = "https://kelas-industri.crocodic.net/rubben/Shoppku/public/api/v1/",
             okHttpClient = NetworkHelper.provideOkHttpClient(),
             converterFactory = listOf(GsonConverterFactory.create())
         )

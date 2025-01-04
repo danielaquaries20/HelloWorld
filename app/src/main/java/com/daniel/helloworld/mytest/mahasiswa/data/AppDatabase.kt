@@ -10,8 +10,8 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.AutoMigrationSpec
 
 @Database(
-    entities = [Mahasiswa::class],
-    version = 5,
+    entities = [Mahasiswa::class, User::class],
+    version = 6,
     exportSchema = true,
     autoMigrations = [
         AutoMigration(2, 3),
@@ -28,6 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     class DeleteMhsDescription : AutoMigrationSpec
 
     abstract fun mahasiswaDao(): MahasiswaDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile
