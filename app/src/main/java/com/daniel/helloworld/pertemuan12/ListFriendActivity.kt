@@ -69,6 +69,9 @@ class ListFriendActivity :
         lifecycleScope.launch {
             viewModel.queries.emit(Triple("", "", ""))
         }
+        viewModel.getSlider()
+
+
         binding.etSearch.doOnTextChanged { text, start, before, count ->
             val keyword = "%${text.toString().trim()}%"
 //            viewModel.getFriend(keyword)
@@ -85,6 +88,11 @@ class ListFriendActivity :
                         adapter.setData(friendList)
                     }
                 }*/
+                launch {
+                    viewModel.slider.collect { data ->
+                        binding.ivSlider.setImageList(data)
+                    }
+                }
 
                 launch {
                     viewModel.getPagingProducts().collectLatest { data ->
@@ -102,7 +110,7 @@ class ListFriendActivity :
             }
         }
 
-        binding.ftbnFilter.setOnClickListener {
+        binding.ftbFilter.setOnClickListener {
             val btmSht = BottomSheetFilterProducts { filter ->
                 viewModel.filterProducts(filter)
             }
@@ -111,7 +119,7 @@ class ListFriendActivity :
         }
 
 
-        binding.ftbnSort.setOnClickListener {
+        binding.ftbSort.setOnClickListener {
             val btmSht = BottomSheetSortingProducts { sortBy, order ->
                 viewModel.sortProducts(sortBy, order)
             }

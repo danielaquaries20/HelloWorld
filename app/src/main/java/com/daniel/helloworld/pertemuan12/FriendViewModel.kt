@@ -11,6 +11,7 @@ import com.daniel.helloworld.pertemuan12.database.Friend
 import com.daniel.helloworld.pertemuan12.database.FriendDao
 import com.daniel.helloworld.pertemuan12.database.repo.FriendRepository
 import com.daniel.helloworld.pertemuan12.repository.DataProductsRepo
+import com.denzcoskun.imageslider.models.SlideModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -40,6 +41,19 @@ class FriendViewModel @Inject constructor(
                     }
                 }
             ).flow.cachedIn(viewModelScope)
+        }
+    }
+
+    private val _slider = MutableSharedFlow<List<SlideModel>>()
+    val slider = _slider.asSharedFlow()
+
+    fun getSlider() = viewModelScope.launch {
+        dataProductsRepo.getSlider().collect {
+            val data = ArrayList<SlideModel>()
+            it.forEach {photo->
+                data.add(SlideModel(photo.thumbnail, photo.title))
+            }
+            _slider.emit(data)
         }
     }
 
