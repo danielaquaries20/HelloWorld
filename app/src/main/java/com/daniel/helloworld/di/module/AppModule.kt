@@ -14,6 +14,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -73,10 +74,32 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiAuthService(): ApiAuthService {
+    fun providesOkHttp(session: CoreSession): OkHttpClient {
+
+        return NetworkHelper.provideOkHttpClient().newBuilder().apply {
+            addInterceptor {
+                val original = it.request()
+                val requestBuilder = original.newBuilder()
+                    .header("Content-Type", "application/json")
+                    .method(original.method, original.body)
+
+                val token = session.getString(CoreSession.PREF_UID)
+                if (token.isNotEmpty()) {
+                    requestBuilder.header("Authorization", "Bearer $token")
+                }
+
+                val request = requestBuilder.build()
+                it.proceed(request)
+            }
+        }.build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideApiAuthService(okHttpClient: OkHttpClient): ApiAuthService {
         return NetworkHelper.provideApiService(
             baseUrl = "https://kelas-industri.crocodic.net/rubben/Shoppku/public/api/v1/",
-            okHttpClient = NetworkHelper.provideOkHttpClient(),
+            okHttpClient = okHttpClient,
             converterFactory = listOf(GsonConverterFactory.create())
         )
     }

@@ -12,7 +12,7 @@ android {
     namespace = "com.daniel.helloworld"
     compileSdk = 34
 
-    configurations.implementation{
+    configurations.implementation {
         exclude(group = "com.intellij", module = "annotations")
     }
 
@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.fragmentKtx)
     implementation(libs.coreCrocodic)
     implementation(libs.imageSlider)
+    implementation(libs.biometric)
 }
 
 kapt {

@@ -36,7 +36,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <EditText
+                    <!--<EditText
                         android:id="@+id/et_search"
                         style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
                         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                         android:hint="Search"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/iv_slider" />
+                        app:layout_constraintTop_toBottomOf="@id/iv_slider" />-->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -98,19 +98,12 @@
             android:layout_marginBottom="32dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/ftb_filter"
+            <Button
+                android:id="@+id/btn_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@drawable/baseline_filter" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/ftb_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:src="@drawable/baseline_sort" />
+                android:text="Setting" />
 
 
         </LinearLayout>

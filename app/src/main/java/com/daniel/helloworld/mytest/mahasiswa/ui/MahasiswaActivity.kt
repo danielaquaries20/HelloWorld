@@ -2,32 +2,22 @@ package com.daniel.helloworld.mytest.mahasiswa.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.activity.CoreActivity
 import com.crocodic.core.base.adapter.PaginationAdapter
 import com.crocodic.core.base.adapter.PaginationLoadState
 import com.crocodic.core.data.CoreSession
-import com.crocodic.core.extension.clearNotification
 import com.crocodic.core.extension.openActivity
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityMahasiswaBinding
 import com.daniel.helloworld.databinding.ItemMahasiswaBinding
 import com.daniel.helloworld.mytest.btm_sht.BottomSheetSorting
-import com.daniel.helloworld.mytest.mahasiswa.data.Mahasiswa
 import com.daniel.helloworld.mytest.mahasiswa.data.UserDao
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
-import com.daniel.helloworld.mytest.mahasiswa.ui.adapter.RvProductAdapter
-import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtFilter
-import com.daniel.helloworld.mytest.mahasiswa.ui.btm_sht.TestBtmShtSort
 import com.daniel.helloworld.mytest.mahasiswa.ui.detail.DetailMahasiswaActivity
-import com.daniel.helloworld.mytest.mahasiswa.ui.login.LoginActivity
+import com.daniel.helloworld.mytest.mahasiswa.ui.settings.TrialSettingActivity
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -40,8 +30,8 @@ class MahasiswaActivity :
     CoreActivity<ActivityMahasiswaBinding, MahasiswaViewModel>(R.layout.activity_mahasiswa),
     View.OnClickListener {
 
-    private val listMhs = ArrayList<Mahasiswa>()
-    private val listProduct = ArrayList<Product>()
+    /*private val listMhs = ArrayList<Mahasiswa>()
+    private val listProduct = ArrayList<Product>()*/
 
     @Inject
     lateinit var coreSession: CoreSession
@@ -52,8 +42,8 @@ class MahasiswaActivity :
     @Inject
     lateinit var userDao: UserDao
 
-    //    private lateinit var adapter: RvMahasiswaAdapter
-    private lateinit var adapter: RvProductAdapter
+    /*private lateinit var adapter: RvMahasiswaAdapter
+    private lateinit var adapter: RvProductAdapter*/
 
     private val adapterCore by lazy {
         PaginationAdapter<ItemMahasiswaBinding, Product>(R.layout.item_mahasiswa).initItem { position, data ->
@@ -67,12 +57,29 @@ class MahasiswaActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        with(adapterCore) {
+            binding.rvMahasiswa.adapter = withLoadStateFooter(PaginationLoadState.default)
         }
+
+        observe()
+        setView()
+
+        viewModel.getSlider()
+        lifecycleScope.launch {
+            viewModel.queries.emit(Triple("title", "description", "thumbnail"))
+        }
+
+        /*binding.etSearch.doOnTextChanged { text, start, before, count ->
+//            viewModel.getMhs(text.toString().trim())
+            viewModel.getProduct(text.toString().trim())
+        }*/
+
+        /*enableEdgeToEdge()
+       ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+           val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+           v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+           insets
+       }*/
 
         /*adapter = RvMahasiswaAdapter(this) { pos, data ->
 
@@ -83,25 +90,9 @@ class MahasiswaActivity :
         }*/
 //        adapter = RvProductAdapter(this)
 //        binding.rvMahasiswa.adapter = adapterCore
-        with(adapterCore) {
-            binding.rvMahasiswa.adapter = withLoadStateFooter(PaginationLoadState.default)
-        }
 
-
-        observe()
-        setView()
 //        viewModel.getMhs("")
 //        viewModel.getProduct()
-        viewModel.getSlider()
-        lifecycleScope.launch {
-            viewModel.queries.emit(Triple("title", "description", "thumbnail"))
-        }
-
-        binding.etSearch.doOnTextChanged { text, start, before, count ->
-//            viewModel.getMhs(text.toString().trim())
-            viewModel.getProduct(text.toString().trim())
-        }
-
     }
 
     override fun onStart() {
@@ -113,6 +104,10 @@ class MahasiswaActivity :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
+                    viewModel.getPagingProducts().collectLatest { data ->
+                        adapterCore.submitData(data)
+                    }
+
                     /*viewModel.mhs.collect { data ->
                         listMhs.clear()
                         listMhs.addAll(data)
@@ -128,29 +123,10 @@ class MahasiswaActivity :
                         if (data.isEmpty()) binding.tvEmpty.isVisible = true
                         else binding.tvEmpty.isVisible = false
                     }*/
-                    viewModel.getPagingProducts().collectLatest { data ->
-                        adapterCore.submitData(data)
-                    }
                 }
                 launch {
                     viewModel.imageSliderResponse.collect {
                         binding.ivSlider.setImageList(it)
-                    }
-                }
-                launch {
-                    viewModel.apiResponse.collect {
-                        if (it.status == ApiStatus.LOADING) {
-                            loadingDialog.show("Logout")
-                        } else {
-                            loadingDialog.dismiss()
-                        }
-                        if (it.status == ApiStatus.SUCCESS) {
-                            loadingDialog.dismiss()
-                            expiredDialog.dismiss()
-                            clearNotification()
-                            openActivity<LoginActivity>()
-                            finishAffinity()
-                        }
                     }
                 }
                 /*launch {
@@ -178,8 +154,31 @@ class MahasiswaActivity :
      }*/
 
     private fun setView() {
-        binding.ftbFilter.setOnClickListener(this)
-        binding.ftbSort.setOnClickListener(this)
+        binding.btnSetting.setOnClickListener(this)
+//        binding.ftbSort.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.btnSetting -> {
+                openActivity<TrialSettingActivity>()
+//                viewModel.logout()
+                /*val btmShtSort = TestBtmShtSort { sortBy, orderBy ->
+                    viewModel.sortProduct(sortBy, orderBy)
+                }
+
+                btmShtSort.show(supportFragmentManager, "BtmShtSortingData")*/
+                /*val destination = Intent(this, TambahMahasiswaActivity::class.java)
+                startActivity(destination)*/
+            }
+
+            /* binding.ftbFilter -> {
+                 val btmShtFilter = TestBtmShtFilter { filterBy ->
+                     viewModel.filterProduct(filterBy)
+                 }
+                 btmShtFilter.show(supportFragmentManager, "BtmShtFilteringData")
+             }*/
+        }
     }
 
     private fun showBottomSheet() {
@@ -190,25 +189,4 @@ class MahasiswaActivity :
         sortBtmSht.show(supportFragmentManager, "Sorting")
     }
 
-    override fun onClick(v: View?) {
-        when (v) {
-            binding.ftbSort -> {
-//                viewModel.logout()
-                val btmShtSort = TestBtmShtSort { sortBy, orderBy ->
-                    viewModel.sortProduct(sortBy, orderBy)
-                }
-
-                btmShtSort.show(supportFragmentManager, "BtmShtSortingData")
-                /*val destination = Intent(this, TambahMahasiswaActivity::class.java)
-                startActivity(destination)*/
-            }
-
-            binding.ftbFilter -> {
-                val btmShtFilter = TestBtmShtFilter { filterBy ->
-                    viewModel.filterProduct(filterBy)
-                }
-                btmShtFilter.show(supportFragmentManager, "BtmShtFilteringData")
-            }
-        }
-    }
 }

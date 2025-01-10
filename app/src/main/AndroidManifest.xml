@@ -22,8 +22,11 @@
         android:theme="@style/Theme.HelloWorld"
         tools:targetApi="31">
         <activity
+            android:name=".mytest.mahasiswa.ui.settings.TrialSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".mytest.mahasiswa.ui.login.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,9 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".pertemuan12.ListFriendActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".mytest.permission.TestGetPhotoActivity"
             android:exported="true" />
@@ -79,7 +80,7 @@
             android:exported="false" />
         <activity
             android:name=".mytest.mahasiswa.ui.MahasiswaActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".pertemuan9.MenuHomeActivity"
             android:exported="true" />
