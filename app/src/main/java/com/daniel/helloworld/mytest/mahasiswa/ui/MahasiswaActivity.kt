@@ -17,6 +17,7 @@ import com.daniel.helloworld.mytest.btm_sht.BottomSheetSorting
 import com.daniel.helloworld.mytest.mahasiswa.data.UserDao
 import com.daniel.helloworld.mytest.mahasiswa.data.model.Product
 import com.daniel.helloworld.mytest.mahasiswa.ui.detail.DetailMahasiswaActivity
+import com.daniel.helloworld.mytest.mahasiswa.ui.maps.TrialMapActivity
 import com.daniel.helloworld.mytest.mahasiswa.ui.settings.TrialSettingActivity
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -155,11 +156,13 @@ class MahasiswaActivity :
 
     private fun setView() {
         binding.btnSetting.setOnClickListener(this)
+        binding.btnMap.setOnClickListener(this)
 //        binding.ftbSort.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
+            binding.btnMap -> openActivity<TrialMapActivity>()
             binding.btnSetting -> {
                 openActivity<TrialSettingActivity>()
 //                viewModel.logout()

@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -21,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloWorld"
         tools:targetApi="31">
+        <activity
+            android:name=".mytest.mahasiswa.ui.maps.TrialMapActivity"
+            android:exported="false" />
         <activity
             android:name=".mytest.mahasiswa.ui.settings.TrialSettingActivity"
             android:exported="false" />
@@ -50,7 +56,7 @@
             android:exported="false" />
         <activity
             android:name=".pertemuan12.ListFriendActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".mytest.permission.TestGetPhotoActivity"
             android:exported="true" />
@@ -121,6 +127,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAFzp4YfwVur6zvHirEEBFj8vpqEo_hBgg" />
+
     </application>
 
 </manifest>
