@@ -93,6 +93,8 @@ class LoginActivity : CoreActivity<ActivityLoginBinding, LoginViewModel>(R.layou
     }
 
     private fun validateLogin() {
+//        val email = binding.etEmail.text.toString().trim()
+//        val pass = binding.etPass.text.toString().trim()
         if (inputEmail.isEmpty()) {
             binding.inputPhone.error = "Isi Email"
             return
