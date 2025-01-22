@@ -1,8 +1,10 @@
 package com.daniel.helloworld.di.module
 
 import android.content.Context
+import android.location.Geocoder
 import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
+import com.daniel.helloworld.helper.AddressHelper
 import com.daniel.helloworld.mytest.mahasiswa.api.ApiAuthService
 import com.daniel.helloworld.mytest.mahasiswa.api.ApiService
 import com.daniel.helloworld.mytest.mahasiswa.data.AppDatabase
@@ -16,6 +18,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Locale
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -29,6 +32,18 @@ class AppModule {
     @Singleton
     @Provides
     fun provideGson() = Gson()
+
+    @Singleton
+    @Provides
+    fun provideGeocoder(@ApplicationContext context: Context): Geocoder {
+        return Geocoder(context, Locale.getDefault())
+    }
+
+    @Singleton
+    @Provides
+    fun provideAddressHelper(geocoder: Geocoder): AddressHelper {
+        return AddressHelper(geocoder)
+    }
 
     @Singleton
     @Provides

@@ -7,14 +7,16 @@ import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.checkLocationPermission
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityTrialMapBinding
-import com.google.android.gms.maps.CameraUpdateFactory
+import com.daniel.helloworld.helper.AddressHelper
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.activity_trial_map) {
 
+    @Inject
+    lateinit var addressHelper: AddressHelper
 
     private lateinit var myLocation: Location
 
@@ -31,10 +33,11 @@ class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.a
         }*/
 
         checkLocationPermission {
-            listenLocationChange()
+//            listenLocationChange()
         }
 
         binding.mapView.getMapAsync { googleMap ->
+            /*Marker
             val latLng = LatLng(-7.1157543, 110.3985217)
 
             googleMap.addMarker(
@@ -43,10 +46,32 @@ class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.a
                     .title("Markerku")
                     .snippet("Lokasisi lah, pokokmen")
             )
-            // Pindahkan kamera ke marker
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
 
-//            googleMap.isMyLocationEnabled = true
+            googleMap.isMyLocationEnabled = true*/
+
+            googleMap.setOnCameraMoveListener {
+                binding.ivTarget.alpha = 0.5f
+            }
+
+            googleMap.setOnCameraIdleListener {
+                binding.ivTarget.alpha = 1f
+
+                val currentLocation = googleMap.cameraPosition.target
+
+                binding.tvLocation.text =
+                    "Lat: ${currentLocation.latitude}\nLng: ${currentLocation.longitude}"
+
+                addressHelper.getAddress(
+                    LatLng(
+                        currentLocation.latitude,
+                        currentLocation.longitude
+                    )
+                ) {
+                    binding.tvAddress.text = it
+                }
+            }
         }
 
     }
