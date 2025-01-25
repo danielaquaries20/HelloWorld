@@ -5,6 +5,7 @@ import android.location.Geocoder
 import com.crocodic.core.data.CoreSession
 import com.crocodic.core.helper.NetworkHelper
 import com.daniel.helloworld.helper.AddressHelper
+import com.daniel.helloworld.helper.PenolongLokasi
 import com.daniel.helloworld.mytest.mahasiswa.api.ApiAuthService
 import com.daniel.helloworld.mytest.mahasiswa.api.ApiService
 import com.daniel.helloworld.mytest.mahasiswa.data.AppDatabase
@@ -43,6 +44,12 @@ class AppModule {
     @Provides
     fun provideAddressHelper(geocoder: Geocoder): AddressHelper {
         return AddressHelper(geocoder)
+    }
+
+    @Singleton
+    @Provides
+    fun providePenolongLokasi(geocoder: Geocoder) : PenolongLokasi {
+        return PenolongLokasi(geocoder)
     }
 
     @Singleton

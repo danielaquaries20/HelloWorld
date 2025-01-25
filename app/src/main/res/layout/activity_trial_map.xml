@@ -20,10 +20,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_location"
-            app:layout_constraintBottom_toBottomOf="@id/map_view"
-            app:layout_constraintEnd_toEndOf="@id/map_view"
-            app:layout_constraintStart_toStartOf="@id/map_view"
             app:layout_constraintTop_toTopOf="@id/map_view"
+            app:layout_constraintBottom_toBottomOf="@id/map_view"
+            app:layout_constraintStart_toStartOf="@id/map_view"
+            app:layout_constraintEnd_toEndOf="@id/map_view"
             app:tint="@color/text_red" />
 
         <androidx.cardview.widget.CardView
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="@id/map_view">
 
             <LinearLayout
                 android:layout_width="match_parent"
