@@ -1,13 +1,19 @@
 package com.daniel.helloworld.mytest.mahasiswa.ui.maps
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
+import androidx.core.app.ActivityCompat
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.checkLocationPermission
+import com.crocodic.core.helper.LocationHelper
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityTrialMapBinding
 import com.daniel.helloworld.helper.AddressHelper
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,7 +39,7 @@ class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.a
         }*/
 
         checkLocationPermission {
-//            listenLocationChange()
+            listenLocationChange()
         }
 
         binding.mapView.getMapAsync { googleMap ->
@@ -51,6 +57,7 @@ class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.a
 
             googleMap.isMyLocationEnabled = true*/
 
+            /*Camera Listener
             googleMap.setOnCameraMoveListener {
                 binding.ivTarget.alpha = 0.5f
             }
@@ -71,15 +78,67 @@ class TrialMapActivity : NoViewModelActivity<ActivityTrialMapBinding>(R.layout.a
                 ) {
                     binding.tvAddress.text = it
                 }
+            }*/
+
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return@getMapAsync
             }
+            googleMap.isMyLocationEnabled = true
+
+            // -7.1179884, 110.3951523 -> LatLng 1
+            // -7.8266, 112.0110 -> LatLng 2
+
+            val area = googleMap.addCircle(
+                CircleOptions()
+                    .center(LatLng(-7.1179884, 110.3951523))
+                    .radius(1_000.0)
+                    .strokeColor(Color.parseColor("#FFC80000"))
+                    .fillColor(Color.parseColor("#25C80000"))
+            )
         }
 
     }
 
+    private fun isInsideLocation(area: LatLng, position: LatLng): Boolean {
+        return LocationHelper.distance(area, position) < 1
+    }
+
     override fun retrieveLocationChange(location: Location) {
         super.retrieveLocationChange(location)
-        myLocation = location
-        Log.d("deviceLocation", "latitude: ${location.latitude}, longitude: ${location.longitude}")
+
+        binding.mapView.getMapAsync { googleMap ->
+            googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        location.latitude,
+                        location.longitude
+                    ), 13f
+                )
+            )
+
+            val isInside = isInsideLocation(
+                LatLng(-7.1179884, 110.3951523),
+                LatLng(location.latitude, location.longitude)
+            )
+
+            val status = if (isInside) {
+                "dalam"
+            } else {
+                "luar"
+            }
+
+            binding.tvStatus.text = "Kamu berada di $status area."
+        }
+
+//        myLocation = location
+//        Log.d("deviceLocation", "latitude: ${location.latitude}, longitude: ${location.longitude}")
 //        binding.root.snacked("latitude: ${location.latitude} longitude: ${location.longitude}")
     }
 
