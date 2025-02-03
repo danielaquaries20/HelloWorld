@@ -99,6 +99,15 @@
                 android:backgroundTint="@color/light_blue"
                 android:text="Map" />
 
+            <Button
+                android:id="@+id/btn_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/black"
+                android:text="Notification" />
+
         </LinearLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
