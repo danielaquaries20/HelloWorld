@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.coreCrocodic)
     implementation(libs.imageSlider)
     implementation(libs.biometric)
+    implementation(libs.workManager)
 }
 
 kapt {

@@ -19,12 +19,18 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.snacked
+import com.crocodic.core.extension.tos
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityTrialNotificationBinding
+import com.daniel.helloworld.mytest.mahasiswa.service.worker.NotificationWorker
 import com.daniel.helloworld.mytest.mahasiswa.ui.MahasiswaActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class TrialNotificationActivity :
@@ -46,7 +52,23 @@ class TrialNotificationActivity :
             showNotification("Hallo Gais!", "Saya sedang belajar membuat notifikasi.")
         }
 
+        binding.btnRequest.setOnClickListener {
+            createWorkNotification()
+        }
     }
+
+    private fun createWorkNotification() {
+        val notificationWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<NotificationWorker>()
+            .setInitialDelay(15, TimeUnit.SECONDS)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(notificationWorkRequest)
+
+        tos("Aplikasi tertutup dan tunggu 15 detik ya")
+
+        finishAffinity()
+    }
+
 
     private fun showNotification(title: String, content: String) {
 
