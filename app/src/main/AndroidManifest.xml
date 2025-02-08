@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -25,6 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloWorld"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.work_manager.WorkManagerActivity"
+            android:exported="false" />
         <activity
             android:name=".mytest.mahasiswa.ui.notification.TrialNotificationActivity"
             android:exported="false" />
