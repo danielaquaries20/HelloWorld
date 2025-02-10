@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.provider.Settings
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
@@ -24,9 +25,11 @@ import androidx.work.WorkManager
 import androidx.work.WorkRequest
 import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.snacked
+import com.crocodic.core.extension.text
 import com.crocodic.core.extension.tos
 import com.daniel.helloworld.R
 import com.daniel.helloworld.databinding.ActivityTrialNotificationBinding
+import com.daniel.helloworld.mytest.mahasiswa.service.worker.InAppNotificationWorker
 import com.daniel.helloworld.mytest.mahasiswa.service.worker.NotificationWorker
 import com.daniel.helloworld.mytest.mahasiswa.ui.MahasiswaActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +58,32 @@ class TrialNotificationActivity :
         binding.btnRequest.setOnClickListener {
             createWorkNotification()
         }
+
+        binding.btnInAppNotification.setOnClickListener {
+            createInAppNotification()
+        }
+    }
+
+    private fun createInAppNotification() {
+        val inputSecond = binding.etInputCountdown.text.toString().toLong()
+
+        val notificationWorkRequest: WorkRequest = OneTimeWorkRequestBuilder<InAppNotificationWorker>()
+            .setInitialDelay(inputSecond, TimeUnit.SECONDS)
+            .build()
+
+        WorkManager.getInstance(this).enqueue(notificationWorkRequest)
+
+        showCountDown(inputSecond)
+    }
+
+    private fun showCountDown(countdown: Long) {
+        object : CountDownTimer(TimeUnit.SECONDS.toMillis(countdown), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.tvCountdown.text("${millisUntilFinished / 1000}")
+            }
+
+            override fun onFinish() { }
+        }.start()
     }
 
     private fun createWorkNotification() {

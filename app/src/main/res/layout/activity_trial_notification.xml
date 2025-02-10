@@ -10,6 +10,36 @@
         android:layout_height="match_parent"
         tools:context=".mytest.mahasiswa.ui.notification.TrialNotificationActivity">
 
+        <TextView
+            android:id="@+id/tv_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="72sp"
+            app:layout_constraintBottom_toTopOf="@id/et_input_countdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/et_input_countdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:hint="Input countdown in second"
+            android:inputType="number"
+            android:padding="16dp"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@id/btn_in_app_notification" />
+
+        <Button
+            android:id="@+id/btn_in_app_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="In App Notification"
+            app:layout_constraintBottom_toTopOf="@id/btn_request" />
+
         <Button
             android:id="@+id/btn_request"
             android:layout_width="match_parent"
