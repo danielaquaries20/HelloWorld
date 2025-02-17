@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -32,6 +33,7 @@ import com.daniel.helloworld.databinding.ActivityTrialNotificationBinding
 import com.daniel.helloworld.mytest.mahasiswa.service.worker.InAppNotificationWorker
 import com.daniel.helloworld.mytest.mahasiswa.service.worker.NotificationWorker
 import com.daniel.helloworld.mytest.mahasiswa.ui.MahasiswaActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -61,6 +63,21 @@ class TrialNotificationActivity :
 
         binding.btnInAppNotification.setOnClickListener {
             createInAppNotification()
+        }
+
+        getFcmToken()
+    }
+
+    private fun getFcmToken() {
+        generateFirebaseToken {
+            val token = it
+            Log.d("firebase-token", token)
+        }
+    }
+
+    private fun generateFirebaseToken(result: (String) -> Unit) {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            result(it.result)
         }
     }
 
