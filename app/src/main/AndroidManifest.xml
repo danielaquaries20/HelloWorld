@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-feature
@@ -26,9 +25,17 @@
         android:theme="@style/Theme.HelloWorld"
         tools:targetApi="31">
         <activity
-            android:name=".activity.work_manager.WorkManagerActivity"
+            android:name=".activity.push_notification.PushNotificationActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.work_manager.WorkManagerActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".mytest.mahasiswa.ui.notification.TrialNotificationActivity"
             android:exported="false" />
@@ -41,11 +48,7 @@
         <activity
             android:name=".mytest.mahasiswa.ui.login.LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".pertemuan12.DetailProductActivity"
@@ -140,13 +143,22 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAFzp4YfwVur6zvHirEEBFj8vpqEo_hBgg" />
 
+        <!--<service
+            android:name=".mytest.mahasiswa.service.fcm.TrialFirebaseMsgService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
+
         <service
-            android:name="com.daniel.helloworld.mytest.mahasiswa.service.fcm.TrialFirebaseMsgService"
+            android:name="com.daniel.helloworld.activity.fcm.FirebaseMsgService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>
